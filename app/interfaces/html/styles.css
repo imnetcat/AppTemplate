@@ -1,0 +1,107 @@
+@font-face {
+  font-family: 'Source Code Font';
+  src:url('font/SourceCodeFont.ttf.woff') format('woff'),url('font/SourceCodeFont.ttf.eot');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  color: white;
+  margin: 0;
+  background: #000000;
+  font-family: 'Source Code Font';
+  text-transform: uppercase;
+  font-weight: normal;
+  font-stretch: normal;
+}
+#menu {
+  background: #444444;
+  position: fixed;
+  height: 100vh;
+  width: 14vw;
+  padding: 1vw;
+}
+#right {
+  position: absolute;
+  height: max-content;
+  min-height: 100vh;
+  width: calc(100% - 16vw);
+  margin-left: 16vw;
+  z-index: 100;
+  background: inherit;
+}
+#right .hide-scroll-bar {
+  position: absolute;
+  width: 17px;
+  height: 100%;
+  margin-left: calc(100% - 17px);
+  background: inherit;
+}
+header {
+  background: #444444;
+  height: max-content;
+  width: 100%;
+  z-index: 101;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+#menu a {
+  text-decoration: none;
+  color: inherit;
+}
+h1 {
+  font-size: 2.7em;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  font-weight: bold;
+}
+ul {
+  list-style-type: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0px;
+  margin-inline-end: 0;
+  padding-inline-start: 0;
+}
+li {
+  cursor: pointer;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  font-size: 2.3vh;
+}
+li a img {
+  position: absolute;
+  height: 3vh;
+  width: auto;
+}
+li a span {
+  margin-left: calc(3vh + 6px);
+  line-height: 3vh;
+}
+#right header {
+  border-width: 0 0 5px 0;
+  border-style: solid;
+  border-color: #323232;
+  position: fixed;
+  height: 50px;
+    width: calc(100% - 16vw);
+    line-height: 50px;
+    text-align: right;
+}
+#content {
+  position: absolute;
+  margin-top: 55px;
+  width: 100%;
+  height: calc(100% - 55px);
+  border-style: none;
+  border-width: 0;
+}
+#time {
+  left: 0;
+}
+.conn-stat {
+
+}

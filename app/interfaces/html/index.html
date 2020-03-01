@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Armitage</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css" type="text/css" />
+    <script src="/scripts/request_api.js"></script>
+    <script src="/scripts/time.js"></script>
+    <script src="/scripts/modules.js"></script>
+</head>
+<body data-role="page" data-url="/" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
+    <div id="menu">
+        <header><a target="content" href="welcome.html"><h1>Armitage</h1></a></header>
+        <ul id="menu-ul">
+            <li><a target="content" href="settings.html"><img src="img/settings.png" /><span>Settings</span></a></li>
+        </ul>
+    </div>
+    <div id="right">
+        <header>
+          <span id="time">2018-03-01 | 00:00:00</span>
+        </header>
+        <iframe name="content" id="content" src="welcome.html"></iframe>
+        <div class="hide-scroll-bar"></div>
+    </div>
+</body>
+</html>

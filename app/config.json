@@ -1,0 +1,16 @@
+{
+  "core": {
+    "logging": {
+      "root": "logs"
+    }
+  },
+  "interfaces": {
+    "http": {
+      "root": "./app/interfaces/html",
+      "port": 8080
+    }
+  },
+  "modules": {
+    "root": "./app/modules"
+  }
+}

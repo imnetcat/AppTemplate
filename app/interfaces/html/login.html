@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="texthtml; charset=windows-1251">
+  <title>Sing in</title>
+  <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", () => {
+    var enter = document.getElementById("enter");
+    enter.addEventListener("click", () => {
+      if(document.getElementById("password").value != ""){
+        var xmlh = new XMLHttpRequest();
+        var url = document.location;
+        var params = 'PASSWORD=' + document.getElementById("password").value + '\n';
+        xmlh.open('POST', url, true);
+        xmlh.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        xmlh.onreadystatechange = function() {
+          if(xmlh.readyState == 4 && xmlh.status == 200) {
+            document.location = "/" + xmlh.responseText;
+          }
+        }
+        xmlh.send(params);
+      }
+    }, false);
+  });
+  </script>
+  <style>
+  body {
+    background-color: #151515;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+  input:focus {
+    outline: unset;
+  }
+  input {
+    width: 150px;
+    height: 17px;
+    padding: 3px 2px;
+    background-color: #585858;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-width: 0px 0px 0px 10px;
+    border-style: solid;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    border-image: unset;
+  }
+  #login-block {
+    margin-top: 50vh;
+    width: max-content;
+    height: max-content;
+    background-color: #151515;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+  div#enter {
+    width: 60px;
+    height: 23px;
+    cursor: pointer;
+    background-color: white;
+    right: 0;
+    margin-left: 5vw;
+  }
+  </style>
+</head>
+<body>
+  <div id="login-block">
+    <input id="password" type="password" placeholder="Password" autofocus>
+    <div id="enter"></div>
+  </div>
+</body>
+</html>
