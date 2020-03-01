@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
+const Core = require('./core');
+
 const MODS = [];
-const ROOT = path.join(process.cwd(), 'modules');
+const ROOT = './modules';
 
 const STATES = {
   0: "undefined",
@@ -41,7 +43,7 @@ class Module {
 class Modules {
   //
   search(modules){
-    core.log.info('Начат поиск модулей');
+    Core.log.info('Начат поиск модулей');
     fs.readdirSync(ROOT).forEach(descriptor => {
       const mod = descriptor;
       const dir = path.join(ROOT, descriptor);
@@ -50,33 +52,33 @@ class Modules {
           for(const mod of modules) {
             if(mod.toLowerCase() === mod.toLowerCase()){
               MODS.push(new Module(mod, 1));
-              core.log.info(`Обнаружен модуль [${mod.toLowerCase()}]`);
+              Core.log.info(`Обнаружен модуль [${mod.toLowerCase()}]`);
             }
           }
         } else {
           MODS.push(new Module(mod, 1));
-          core.log.info(`Обнаружен модуль [${mod.toLowerCase()}]`);
+          Core.log.info(`Обнаружен модуль [${mod.toLowerCase()}]`);
         }
       }
     });
-    core.log.info('Поиск модулей завершен');
+    Core.log.info('Поиск модулей завершен');
     return this;
   }
 
   //
   load(modules){
-    core.log.info('Загрузка конфигов модулей');
+    Core.log.info('Загрузка конфигов модулей');
     for(const mod of MODS) {
       if(modules){
         if(mod !== modules) continue;
       }
-      core.log.info(`Конфигурация [${mod.name.toLowerCase()}]`);
+      Core.log.info(`Конфигурация [${mod.name.toLowerCase()}]`);
       const dir = path.join(ROOT, mod.name);
       const mainFilePath = path.join(dir, `${mod.name}.js`);
       const configPath = path.join(dir, 'config.json');
 
       if(!fs.existsSync(mainFilePath)){
-        core.log.warn(new Error('0x0001'));
+        Core.log.warn(new Error('0x0001'));
         continue;
       }
       if(!fs.existsSync(configPath)){
@@ -86,8 +88,8 @@ class Modules {
       let db = {};
 
       if(config){
-        if(!config.core.db){
-          core.log.warn(new Error('0x0001'));
+        if(!config.Core.db){
+          Core.log.warn(new Error('0x0001'));
         }
       } else {
         // WARNING
@@ -95,26 +97,26 @@ class Modules {
       mod.config(config);
       mod.state(2);
     }
-    core.log.info('Модули сконфигурированы');
+    Core.log.info('Модули сконфигурированы');
     return this;
   }
 
   //
   install(modules){
-    core.log.info('Установка модулей начата');
+    Core.log.info('Установка модулей начата');
     for(const mod of MODS) {
       if(modules){
         if(mod !== modules) continue;
       }
-      core.log.info(`Установка [${mod.name.toLowerCase()}]`);
+      Core.log.info(`Установка [${mod.name.toLowerCase()}]`);
       const dir = path.join(ROOT, mod.name);
       const mainFilePath = path.join(dir, `${mod.name}.js`);
-      db = core.db.open(mod.config().core.db);
-      mod.mod( (require(mainFilePath))(db, core) );
+      db = Core.db.open(mod.config().Core.db);
+      mod.mod( (require(mainFilePath))(db, Core) );
       mod.state(3);
-      core.log.info('Модуль установлен');
+      Core.log.info('Модуль установлен');
     }
-    core.log.info('Установка модулей завершена');
+    Core.log.info('Установка модулей завершена');
     return this;
   }
 

@@ -4,10 +4,25 @@ const Db = require('./core/db');
 const Error = require('./core/error');
 const Logging = require('./core/logging');
 const Utils = require('./core/utils');
+const Config = require('./core/config');
+
+const config = Config.create('./config.json');
 
 class Core {
 
 };
+
+Core.config = {
+  reCreate(){
+    config = Config.create('./config.json');
+  },
+  modules(){
+    return config.modules;
+  },
+  interfaces(){
+    return config.interfaces;
+  }
+}
 
 Core.db = {
   open(config){

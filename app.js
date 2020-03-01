@@ -1,7 +1,7 @@
 'use strict';
 
 const Core = require('./app/core');
-const Interface = require('./app/interface');
+const Interfaces = require('./app/interfaces');
 
 class App {
 

@@ -1,8 +1,5 @@
 {
   "core": {
-    "logging": {
-      "root": "logs"
-    }
   },
   "interfaces": {
     "http": {

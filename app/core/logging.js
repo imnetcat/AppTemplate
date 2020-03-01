@@ -3,12 +3,9 @@
 const fs = require('fs');
 const color = require('ansi-256-colors');
 
-class Logging {
-  constructor(root){
-    this.ROOT = root;
-    if (!fs.existsSync(root)) fs.mkdirSync('./' + root);
-  }
+const ROOT = 'logs';
 
+class Logging {
   error(err) {
     //const text = `(${err.code}) ${err.msg} ${err.dest ? err.dest : ''}\n ${err.stack}`;
     this.Log('error', err, [2, 0, 0]);
@@ -31,7 +28,10 @@ class Logging {
       .replace(/T/, ' ')
       .replace(/\..+/, '');
 
-    const path = this.ROOT + '/' + date.split(' ')[0] + '.txt';
+    // Create dir for logs if not exist
+    if (!fs.existsSync(ROOT)) fs.mkdirSync('./' + ROOT);
+
+    const path = ROOT + '/' + date.split(' ')[0] + '.txt';
     const time = date.split(' ')[1];
 
       let log = `[${time}][${label}]  ${text}\n`;
