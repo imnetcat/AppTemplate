@@ -1,48 +1,70 @@
 'use strict';
 
 const Db = require('./core/db');
-const Error = require('./core/error');
+const CustomError = require('./core/error');
 const Logging = require('./core/logging');
 const Utils = require('./core/utils');
 const Config = require('./core/config');
 
-const config = Config.create('./config.json');
+let config = {};
 
 class Core {
 
 };
 
-Core.config = {
-  reCreate(){
-    config = Config.create('./config.json');
+Core.utils = {
+  partial: (fn, ...args) => {
+    if(args){
+      return Utils.partialEx(fn, ...args);
+    } else {
+      return Utils.partial(fn);
+    }
   },
-  modules(){
+  curry: (fn, ...args) => {
+    if(args){
+      return Utils.curryEx(fn, ...args);
+    } else {
+      return Utils.curry(fn);
+    }
+  },
+  curryEx: (fn, ...args) => Utils.curryExEx(fn, ...args)
+}
+
+Core.config = {
+  reCreate: () => {
+    config = Config.create('/config.json');
+  },
+  modules: () => {
     return config.modules;
   },
-  interfaces(){
+  interfaces: () => {
     return config.interfaces;
   }
 }
 
 Core.db = {
-  open(config){
+  open: (config) => {
     return Db(config);
   }
 };
 
 Core.log = {
-  info(text){
-    Logger.info(text);
+  info: (text) => {
+    Logging.info(text);
   },
 
-  warning(code) {
-    const warn = new Error(code);
-    Logger.warn(warn);
+  warning: (error) => {
+    if( !(error instanceof Error) ){
+      error = new CustomError(error);
+    }
+    Logging.warn(CustomError.toString(error));
   },
 
-  error(code) {
-    const err = new Error(code);
-    Logger.error(err);
+  error: (error) => {
+    if( !(error instanceof Error) ){
+      error = new CustomError(error);
+    }
+    Logging.error(CustomError.toString(error));
     process.exit(1);
   }
 };
