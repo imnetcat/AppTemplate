@@ -1,21 +1,38 @@
 'use strict';
 
-class error extends Error {
-  constructor(code, ...params) {
-    super(...params);
-    const errors = {
-      0x000000: {},
-      0x000001: {
-        msg: 'неизвестная ошибка, всё пошло по *****'
-      }
-    };
-    
-    if(code !== 0x000000){
-      this.code = code;
-      this.name = this.errors[code].name;
-      this.message = this.errors[code].message + '\n' + this.message ;
+const CODES = {
+  0x000001: {
+    msg: "unknown error: all fuck up"
+  }
+}
+
+class CustomError {
+  constructor(code){
+    const err = {};
+    Error.captureStackTrace(this, err);
+    err.code = code;
+    err.msg = CODES[code].msg;
+    return err;
+  }
+  static toString(err){
+    let text = '';
+    if(err.code){
+      text += `(${err.code}) `;
     }
+    if(err.msg){
+      text += `${err.msg} `;
+    }
+    if(err.message && !err.stack){
+      text += `${err.message} `;
+    }
+    if(err.dest){
+      text += `${err.dest} `;
+    }
+    if(err.stack){
+      text += `${err.stack} `;
+    }
+    return text;
   }
 };
 
-module.exports = error;
+module.exports = CustomError;
