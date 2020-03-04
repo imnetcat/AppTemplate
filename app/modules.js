@@ -42,7 +42,7 @@ class Module {
 //
 class Modules {
   //
-  search(modules){
+  static search(modules){
     Core.log.info('Начат поиск модулей');
     fs.readdirSync(ROOT).forEach(descriptor => {
       const mod = descriptor;
@@ -66,7 +66,7 @@ class Modules {
   }
 
   //
-  load(modules){
+  static load(modules){
     Core.log.info('Загрузка конфигов модулей');
     for(const mod of MODS) {
       if(modules){
@@ -102,7 +102,7 @@ class Modules {
   }
 
   //
-  install(modules){
+  static install(modules){
     Core.log.info('Установка модулей начата');
     for(const mod of MODS) {
       if(modules){
@@ -121,17 +121,17 @@ class Modules {
   }
 
   //
-  uninstall(){
+  static uninstall(){
 
   }
 
   //
-  delete(){
+  static delete(){
 
   }
 
   //
-  list(state){
+  static list(state){
     const list = [];
     for(const mod of MODS){
       if(state){
