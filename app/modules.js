@@ -5,9 +5,12 @@ const path = require('path');
 
 const Core = require('./core');
 
+// Все модули
 const MODS = [];
+// папка в которой искать модули
 const ROOT = path.join(process.cwd(), 'app/modules')
 
+// Хеш-таблица состояний модуля
 const STATES = {
   "undefined": 0,
   "founded": 1,
@@ -15,7 +18,7 @@ const STATES = {
   "installed": 3
 };
 
-//
+// Класс модуля
 class Module {
   constructor(name, state, config = null, mod = null){
     this.name = name;
@@ -23,6 +26,7 @@ class Module {
     this._config = config;
     this.mod = mod;
   }
+  // config set\get
   config(conf){
     if(conf){
       this._config = conf;
@@ -30,6 +34,7 @@ class Module {
       return this._config;
     }
   }
+  // state set\get
   state(st){
     if(st){
       this._state = STATES[st];
@@ -39,9 +44,9 @@ class Module {
   }
 };
 
-//
+// Класс позволяющий манипулировать модулями
 class Modules {
-  //
+  // Поиск модулей
   static search(modules){
     Core.log.info('Начат поиск модулей');
     fs.readdirSync(ROOT).forEach(descriptor => {
@@ -65,7 +70,7 @@ class Modules {
     return this;
   }
 
-  //
+  // Загрузка конфига найденых модулей
   static load(modules){
     Core.log.info('Загрузка конфигов модулей');
     for(const mod of MODS) {
@@ -96,7 +101,7 @@ class Modules {
     return this;
   }
 
-  //
+  // Установка загруженый модулей
   static install(modules){
     Core.log.info('Установка модулей начата');
     for(const mod of MODS) {
@@ -125,7 +130,7 @@ class Modules {
 
   }
 
-  //
+  // Листинг модулей (с фильтром по состоянию)
   static list(state){
     const list = [];
     for(const mod of MODS){

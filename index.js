@@ -1,5 +1,7 @@
 'use strict';
 
+// Точка входа в приложение
+
 const Core = require('./app/core');
 const App = require('./app');
 

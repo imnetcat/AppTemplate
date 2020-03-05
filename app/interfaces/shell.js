@@ -3,6 +3,7 @@
 const Core = require('../core');
 const Modules = require('../modules');
 
+// команды всех интерфейсов
 const COMMANDS = {
   "modules": {
     "list": Modules.list,
@@ -16,6 +17,7 @@ const COMMANDS = {
   },
 };
 
+// Получаем функцию соответствующую команде
 const getFunc = commands => {
   let fn = COMMANDS;
   for(const command of commands){
@@ -36,6 +38,7 @@ const serving = (fn) => {
   console.log(fn());
 }
 
+// Класс - обработчик комманд между интерфейсами и модулями
 class Shell {
   static exec(commands, options){
     const fn = getFunc(commands);
