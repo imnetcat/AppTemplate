@@ -5,14 +5,13 @@ const http = require('http');
 
 const Core = require('../core');
 
-const Config = require('../core/config');
+const Modules = require('../modules');
 
-const config = Config.get.core().http;
-
-const ROOT = config.root;
-const HTTP_PORT = config.port;
+let ROOT = "";
+let HTTP_PORT = 0;
 
 let server = {};
+let config = {};
 
 const serveFile = (name) => {
   const MIME_TYPES = {
@@ -33,7 +32,7 @@ const serveFile = (name) => {
   return { stream, mimeType };
 }
 
-const getTime() => {
+const getTime = () => {
   const d = new Date();
   const year = d.getFullYear();
   const month = d.getMonth()+1;
@@ -55,7 +54,7 @@ const getTime() => {
 
 const ROUTING = {
   '/api/gettime': getTime,
-  '/api/get-installed-modules': listInstalledModules
+  '/api/get-installed-modules': Modules.list
 }
 
 const serveApi = (url, data) => {
@@ -68,8 +67,11 @@ const serveApi = (url, data) => {
 }
 
 class HTTP {
-  start(){
+  static start(conf){
     Core.log.info('HTTP-server startup');
+    config = conf;
+    ROOT = config.root;
+    HTTP_PORT = config.port;
     server = http.createServer((req, res) => {
       const { url, method } = req;
       if(method === 'post'){
@@ -97,10 +99,10 @@ class HTTP {
     return this;
   }
 
-  use(mod){
+  static use(mod){
     this.modules[mod.name] = mod;
     return this;
   }
 };
 
-module.exports = Web;
+module.exports = HTTP;

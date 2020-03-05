@@ -6,8 +6,6 @@ const Logging = require('./core/logging');
 const Utils = require('./core/utils');
 const Config = require('./core/config');
 
-let config = {};
-
 class Core {
 
 };
@@ -31,20 +29,20 @@ Core.utils = {
 }
 
 Core.config = {
-  reCreate: () => {
-    config = Config.create('/config.json');
-  },
-  modules: () => {
-    return config.modules;
-  },
-  interfaces: () => {
-    return config.interfaces;
+  create: (confFile) => {
+    const config = Config.create(confFile);
+    if(config){
+      return config;
+    } else {
+      Core.log.warning(0x000001);
+      return null;
+    }
   }
 }
 
 Core.db = {
   open: (config) => {
-    return Db(config);
+    return new Db(config);
   }
 };
 

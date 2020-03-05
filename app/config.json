@@ -3,11 +3,11 @@
   },
   "interfaces": {
     "http": {
-      "root": "./app/interfaces/html",
+      "root": "./interfaces/html",
       "port": 8080
     }
   },
   "modules": {
-    "root": "./app/modules"
+    "root": "./modules"
   }
 }

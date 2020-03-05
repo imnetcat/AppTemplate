@@ -6,8 +6,7 @@ class Config {
       return null;
     }
     const file = fs.readFileSync(confFile);
-    config = JSON.parse(file);
-    return this;
+    return JSON.parse(file);
   }
 }
 

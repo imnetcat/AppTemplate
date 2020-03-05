@@ -1,42 +1,42 @@
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 
 const Core = require('./core');
 
 const MODS = [];
-const ROOT = './modules';
+const ROOT = path.join(process.cwd(), 'app/modules')
 
 const STATES = {
-  0: "undefined",
-  1: "founded",
-  2: "loaded",
-  3: "installed"
+  "undefined": 0,
+  "founded": 1,
+  "loaded": 2,
+  "installed": 3
 };
 
 //
 class Module {
-  constructor(name, state = 0, config = null, mod = null){
+  constructor(name, state, config = null, mod = null){
     this.name = name;
-    this.state = STATES[state];
-    this.config = config;
+    this._state = STATES[state];
+    this._config = config;
     this.mod = mod;
   }
-
-  get name(){ return this.name }
-  set name(value){ this.name = value }
-
-  get state(){ return this.state }
-  set state(value){
-    if(value < STATES.length || value === Math.abs(value)) {
-      this.state = value ;
+  config(conf){
+    if(conf){
+      this._config = conf;
+    } else {
+      return this._config;
     }
   }
-
-  get config(){ return this.config }
-  set config(value){ this.config = value }
-
-  get mod(){ return this.mod }
-  set mod(value){ this.mod = value }
+  state(st){
+    if(st){
+      this._state = STATES[st];
+    } else {
+      return this._state;
+    }
+  }
 };
 
 //
@@ -85,14 +85,9 @@ class Modules {
         // error
       }
       const config = JSON.parse(fs.readFileSync(configPath));
-      let db = {};
 
-      if(config){
-        if(!config.Core.db){
-          Core.log.warn(new Error('0x0001'));
-        }
-      } else {
-        // WARNING
+      if(!config){
+        Core.log.warn(new Error('0x0001'));
       }
       mod.config(config);
       mod.state(2);
@@ -111,8 +106,8 @@ class Modules {
       Core.log.info(`Установка [${mod.name.toLowerCase()}]`);
       const dir = path.join(ROOT, mod.name);
       const mainFilePath = path.join(dir, `${mod.name}.js`);
-      db = Core.db.open(mod.config().Core.db);
-      mod.mod( (require(mainFilePath))(db, Core) );
+      const reqMod = require(mainFilePath);
+      reqMod.init(mod.config());
       mod.state(3);
       Core.log.info('Модуль установлен');
     }

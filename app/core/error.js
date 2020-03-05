@@ -6,10 +6,14 @@ const CODES = {
   }
 }
 
+const errorCodeToStr = (code) => {
+  return '0x' + '0'.repeat(6 - code.toString().length) + code.toString();
+}
+
 class CustomError {
   constructor(code){
     const err = {};
-    Error.captureStackTrace(this, err);
+    err.stack = (new Error()).stack;
     err.code = code;
     err.msg = CODES[code].msg;
     return err;
@@ -17,7 +21,7 @@ class CustomError {
   static toString(err){
     let text = '';
     if(err.code){
-      text += `(${err.code}) `;
+      text += `(${errorCodeToStr(err.code)}) `;
     }
     if(err.msg){
       text += `${err.msg} `;

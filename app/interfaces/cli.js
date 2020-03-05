@@ -2,7 +2,7 @@
 
 const readline = require('readline');
 
-const Shell = require('./commands');
+const Shell = require('./shell');
 const Core = require('../core');
 
 // input line look like:
